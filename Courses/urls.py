@@ -23,13 +23,14 @@ from products.views import product_LView , search , product_list_view
 from .views import *
 from . import views
 from django.conf import settings
+from django.conf.urls.static import static
 #### --- >>
 ## logout -->
 from django.contrib.auth.views import logout
 urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
-    url(r'^products-fbv/$', product_LView ),
+    url(r'^products-fbv/$', include('products.urls') , product_LView ),
     url(r'^(?P<category_id>[0-9]+)/$', views.cat, name="cat"),
     url(r'^category/(?P<course_id>[0-9]+)/$' , views.course_details, name="course_details"),
     url(r'^login$', views.login_page, name="login"),
@@ -42,8 +43,14 @@ urlpatterns = [
     url(r'^payment/(?P<course_id>[0-9]+)/$', payment, name="payment"),
     url(r'^logout/$', logout, {'next_page': home_page }, name='logout')
 
+
     ###---->
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root= settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 """ url(r'^$', views.index, name="index")
  url('^products/',include('products.urls')) """
