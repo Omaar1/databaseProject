@@ -65,6 +65,7 @@ def register_page(request):
     }
     if form.is_valid():
         form.save()
+        return redirect("/")
     return render(request, 'register.html' , context)
 
 def details(request , course_id):
