@@ -106,9 +106,9 @@ class User(AbstractBaseUser):
     # EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['user_name'] # Email & Password are required by default.
 
-    def get_username(self):
+    #def get_username(self):
         # The user is identified by their email address
-        return self.user_name
+      #  return self.user_name
 
     def get_email(self):
         # The user is identified by their email address
