@@ -9,7 +9,7 @@ from pprint import pprint
 
 # Create your models here.
 class Product(models.Model):  #Product Category
-    category    = models.CharField(max_length=120 , null = True)
+    category    = models.CharField(max_length=120 , blank = True)
     courseUrl   = models.CharField(max_length=220,default="NotExist")
     duration    = models.CharField(max_length=120,default="10 weeks")
     image       = models.TextField(default="NotExist")
@@ -22,11 +22,17 @@ class Product(models.Model):  #Product Category
     instructorFullName  = models.CharField(max_length=120 , default="NotExist")
     instructorImageUrl  = models.CharField(max_length=220 ,default="NotExist")
     instructorProfileUrl = models.CharField(max_length=220,default="NotExist")
+    
+    def get_absolute_url(self):
+        return reverse('products:detail', kwargs={
+            'pk': self.pk
+            })
 
 
 
     def __str__(self):
         return self.name
+
 
     # def __unicode__(self):
     #     return self.title
@@ -42,6 +48,19 @@ def parser():
     return data
 
 # 'F:\DevReal\eCommerce\src\courseData.json'
+
+
+
+class Document(models.Model):
+    course_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+    title = models.CharField(max_length=120)
+    filetype = models.CharField(max_length=120)
+    data = models.FileField()
+
+    def __str__(self):
+        return self.title
+
+
 
 class Counter:
     count = 0
