@@ -120,7 +120,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
 
 
-class ReisterForm(forms.ModelForm):
+class RegisterForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='', widget=forms.PasswordInput(attrs={"autocomplete":"off" ,
@@ -154,7 +154,7 @@ class ReisterForm(forms.ModelForm):
 
     def save(self, commit=True):
         # Save the provided password in hashed format
-        user = super(UserAdminCreationForm, self).save(commit=False)
+        user = super(RegisterForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
