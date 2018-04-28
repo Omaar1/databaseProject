@@ -90,6 +90,7 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
     joinedCourses = models.ManyToManyField(Product, null=True ,blank=True)
+    instrCourse = models.OneToOneField(Product , null=True , blank=True ,related_name="instructor", on_delete=models.CASCADE)
 
     email = models.EmailField(verbose_name='email',max_length=255,unique=True,)
     user_name = models.CharField(max_length= 255 ,blank=True,null=False )
