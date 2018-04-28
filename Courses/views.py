@@ -3,7 +3,7 @@ from django.db.models import Q
 from products.models import Product
 from django.contrib.auth import authenticate , login
 from .forms import LoginForm
-from accounts.forms import ReisterForm
+from accounts.forms import RegisterForm
 #from example.config import pagination
 # Create your views here.
 def cat(request, category_id ):
@@ -59,7 +59,7 @@ def login_page(request):
 
 
 def register_page(request):
-    form = ReisterForm(request.POST or None)
+    form = RegisterForm(request.POST or None)
     context = {
     'form' : form
     }
