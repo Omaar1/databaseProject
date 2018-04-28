@@ -10,7 +10,7 @@ from django.contrib.auth.models import (
 
 class UserManager(BaseUserManager):
 
-    def create_user(self ,  email, user_name , password=None , is_staff= False , is_admin=False):
+    def create_user(self ,  email, user_name , password=None ,is_normal=True , is_instructor = False , is_staff= False , is_admin=False):
         """
         Creates and saves a User with the given email and password.
         """
@@ -31,7 +31,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_staffuser(self, email,user_name, password=None):
+    def create_instructoruser(self, email,user_name, password=None):
         """
         Creates and saves a staff user with the given email and password.
         """
@@ -40,10 +40,37 @@ class UserManager(BaseUserManager):
             user_name,
             password=password,
         )
-        user.staff = True
+        user.instructor = True
         user.save(using=self._db)
         return user
 
+    def create_normaluser(self, email,user_name, password=None):
+        """
+        Creates and saves a staff user with the given email and password.
+        """
+        user = self.create_user(
+            email,
+            user_name,
+            password=password,
+        )
+        user.normal = True
+        user.save(using=self._db)
+        return user
+
+
+
+        def create_staffuser(self, email,user_name, password=None):
+            """
+            Creates and saves a staff user with the given email and password.
+            """
+            user = self.create_user(
+            email,
+            user_name,
+            password=password,
+            )
+            user.staff = True
+            user.save(using=self._db)
+            return user
     def create_superuser(self, email, user_name,password=None):
         """
         Creates and saves a superuser with the given email and password.
@@ -70,6 +97,9 @@ class User(AbstractBaseUser):
     staff = models.BooleanField(default=False) # a admin user; non super-user
     admin = models.BooleanField(default=False) # a superuser
     # notice the absence of a "Password field", that's built in.
+    normal = models.BooleanField(default=True)
+    instructor = models.BooleanField(default=False)
+
 
     USERNAME_FIELD = 'email'
     # EMAIL_FIELD = 'email'
@@ -104,6 +134,15 @@ class User(AbstractBaseUser):
     def is_staff(self):
         "Is the user a member of staff?"
         return self.staff
+
+    @property
+    def is_instructor(self):
+        "Is the user a member of staff?"
+        return self.instructor
+    @property
+    def is_normal(self):
+        "Is the user a member of staff?"
+        return self.normal
 
     @property
     def is_admin(self):
